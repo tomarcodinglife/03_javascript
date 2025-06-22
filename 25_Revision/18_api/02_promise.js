@@ -61,7 +61,6 @@ promiseFour.then((userDetails)=>{
     console.log("Promise Resolve or Reject Compleated"); // 
 })
 
-
 // ---------------------------------------------------------------------
 
 const promiseFive = new Promise(function(resolve, reject){

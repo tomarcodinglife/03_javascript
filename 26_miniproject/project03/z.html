@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Input to PDF</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+      background: #f0f0f0;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 16px;
+      width: 300px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+
+    #pdf-content {
+      font-size: 20px;
+      margin-top: 20px;
+      background: white;
+      padding: 20px;
+      width: 600px;
+      margin: 20px auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+
+    /* Hides only in browser view, not in print/PDF */
+    #pdf-content.hide {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Input to PDF Generator</h1>
+  
+  <input type="text" id="nameInput" placeholder="Apna naam likhiye" />
+  <br />
+  <button onclick="generatePDF()">Download PDF</button>
+
+  <!-- Hidden content for PDF -->
+  <div id="pdf-content" class="hide">
+    <p>Yeh PDF naam ke liye banayi gayi hai:</p>
+    <h2 id="nameOutput"></h2>
+  </div>
+
+  <script>
+    function generatePDF() {
+      const name = document.getElementById("nameInput").value;
+      if (name.trim() === "") {
+        alert("Kripya pehle naam bharen.");
+        return;
+      }
+
+      const content = document.getElementById("pdf-content");
+      const nameOutput = document.getElementById("nameOutput");
+
+      nameOutput.innerText = name;
+
+      // Show content before creating PDF
+      content.classList.remove("hide");
+
+      // Wait for UI update before rendering to PDF
+      setTimeout(() => {
+        html2pdf()
+          .from(content)
+          .set({
+            margin: 1,
+            filename: 'input-name.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+          })
+          .save()
+          .then(() => {
+            // Hide it back after download
+            content.classList.add("hide");
+          });
+      }, 100); // Small delay to allow render
+    }
+  </script>
+</body>
+</html>
