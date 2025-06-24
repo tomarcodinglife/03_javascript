@@ -1,304 +1,459 @@
-    <!DOCTYPE html>
-    <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bonafide Certificate Generator</title>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script> -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script> -->
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Bonafide Certificate Generator</title>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-        <style>
-            * {
-                box-sizing: border-box;
-                margin: 0;
-                padding: 0;
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            }
+    body {
+      background-color: #f5f7fa;
+      color: #333;
+      padding: 20px;
+    }
 
-            body {
-                background-color: #f5f7fa;
-                color: #333;
-                padding: 20px;
-            }
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
 
-            .header {
-                text-align: center;
-                margin-bottom: 30px;
-            }
+    .header h1 {
+      color: #2c3e50;
+      font-size: 2rem;
+    }
 
-            .header h1 {
-                color: #2c3e50;
-                font-size: 2rem;
-            }
+    .header h3 {
+      color: #555;
+      margin-top: 5px;
+    }
 
-            .header h3 {
-                color: #555;
-                margin-top: 5px;
-            }
+    .header h2 {
+      margin-top: 10px;
+      font-size: 1.4rem;
+      color: #222;
+    }
 
-            .header h2 {
-                margin-top: 10px;
-                font-size: 1.4rem;
-                color: #222;
-            }
+    .input-form {
+      max-width: 600px;
+      margin: auto;
+      background-color: #ffffff;
+      padding: 25px 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+    }
 
-            .input-form {
-                max-width: 600px;
-                margin: auto;
-                background-color: #ffffff;
-                padding: 25px 30px;
-                border-radius: 10px;
-                box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
-            }
+    .form-group {
+      margin-bottom: 15px;
+    }
 
-            .form-group {
-                margin-bottom: 15px;
-            }
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
 
-            .form-group label {
-                display: block;
-                font-weight: 600;
-                margin-bottom: 5px;
-            }
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
 
-            .form-group input,
-            .form-group select {
-                width: 100%;
-                padding: 10px;
-                font-size: 1rem;
-                border: 1px solid #ccc;
-                border-radius: 6px;
-            }
+    button {
+      padding: 10px 15px;
+      margin-right: 10px;
+      font-size: 0.95rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background-color: #3498db;
+      color: white;
+    }
 
-            button {
-                padding: 10px 15px;
-                margin-right: 10px;
-                font-size: 0.95rem;
-                border: none;
-                border-radius: 6px;
-                cursor: pointer;
-                background-color: #3498db;
-                color: white;
-            }
+    button:hover {
+      background-color: #2980b9;
+    }
 
-            button:hover {
-                background-color: #2980b9;
-            }
+    .button-group {
+      margin-top: 20px;
+      text-align: center;
+    }
 
-            .button-group {
-                margin-top: 20px;
-                text-align: center;
-            }
+    #certificate {
+      max-width: 800px;
+      margin: 40px auto;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.07);
+      display: none;
+    }
 
-            #certificate {
-                max-width: 800px;
-                margin: 40px auto;
-                background-color: #fff;
-                padding: 30px;
-                border-radius: 10px;
-                box-shadow: 0 0 15px rgba(0, 0, 0, 0.07);
-                display: none;
-            }
+    #certificate h2.text-center {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
 
-            #certificate h2.text-center {
-                text-align: center;
-                color: #2c3e50;
-                margin-bottom: 20px;
-            }
+    #certificate p {
+      margin-bottom: 15px;
+      line-height: 1.6;
+      font-size: 1rem;
+    }
 
-            #certificate p {
-                margin-bottom: 15px;
-                line-height: 1.6;
-                font-size: 1rem;
-            }
+    #refdate {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
 
-            #refdate {
-                display: flex;
-                justify-content: space-between;
-                margin-bottom: 15px;
-                flex-wrap: wrap;
-            }
+    .signature {
+      margin-top: 40px;
+      text-align: right;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
 
-            .signature {
-                margin-top: 40px;
-                text-align: right;
-                font-weight: bold;
-                font-size: 1.1rem;
-            }
-        </style>
-    </head>
+    #header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      /* margin-bottom: 0; */
+    }
 
-    <body>
+    /* hr {
+      border: 1px solid #000;
+      margin-top: 1px;
+    } */
 
-        <div class="header">
-            <h1>BUDDHA INSTITUTE OF TECHNOLOGY</h1>
-            <h3>Industrial Area, Gaya</h3>
-            <h2>Bonafide Generator</h2>
+    #logo img {
+      width: 120px;
+      height: auto;
+    }
+    #headerContent {
+      text-align: center;
+      flex-grow: 1;
+      line-height: normal;
+    }
+
+
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #certificate, #certificate * {
+        visibility: visible;
+      }
+      #certificate {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        box-shadow: none;
+      }
+      #printBtn #printBtn * {
+        display: none;
+        visibility: hidden;
+        color: #ffffff;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h1>BUDDHA INSTITUTE OF TECHNOLOGY</h1>
+    <h3>Industrial Area, Gaya</h3>
+    <h2>Bonafide Generator</h2>
+  </div>
+
+  <div class="input-form">
+    <div class="form-group">
+      <label for="student-name">Name:</label>
+      <input type="text" id="student-name" placeholder="Rohit Kumar" />
+    </div>
+
+    <div class="form-group">
+      <label for="fathers-name">Father's Name:</label>
+      <input type="text" id="fathers-name" placeholder="Ramesh Kumar" />
+    </div>
+
+    <div class="form-group">
+      <label for="session">Session:</label>
+      <input type="text" id="session" placeholder="2020-23" />
+    </div>
+
+    <div class="form-group">
+      <label for="course">Course:</label>
+      <select id="course">
+        <option value="B.Tech Engineering">B.Tech Engineering</option>
+        <option value="Polytechnic Engineering">Polytechnic Engineering</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="branch-select">Branch:</label>
+      <select id="branch-select">
+        <option value="Civil Engineering">Civil Engineering</option>
+        <option value="Electrical Engineering">Electrical Engineering</option>
+        <option value="Computer Science & Engineering">Computer Science & Engineering</option>
+        <option value="Mechanical Engineering">Mechanical Engineering</option>
+        <option value="Electronics Engineering">Electronics Engineering</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="roll-no">Roll No:</label>
+      <input type="text" id="roll-no" placeholder="11" />
+    </div>
+
+    <div class="form-group">
+      <label for="semester">Promoted Semester:</label>
+      <input type="text" id="semester" placeholder="6th" />
+    </div>
+
+    <div class="form-group">
+      <label for="fee">Fee Payable:</label>
+      <input type="text" id="fee" placeholder="87100/-" />
+    </div>
+
+    <div class="form-group">
+      <label for="is-late">Is session running late?</label>
+      <select id="is-late">
+        <option value="no">No</option>
+        <option value="yes">Yes</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="backlog">Reason for delay (if any):</label>
+      <input type="text" id="backlog" placeholder="Backlog in 4th sem" />
+    </div>
+
+    <div class="button-group">
+      <button id="generate-btn">Generate & Download PDF</button>
+    </div>
+  </div>
+
+  <div id="certificate">
+    <div>
+        <div id="header">
+            <div id="logo" class="header"><img src="https://i.pinimg.com/736x/77/da/f9/77daf9fec90aa67e37bc31501d4adcb2.jpg" alt=""></div>
+            <div id="headerContent" class="header">
+                <h2 style="color: rgb(185, 0, 0);">BUDDHA INSTITUTE OF TECHNOLOGY</h2>
+                <P style="font-size: small;">Industrial Area, Gaya-Dobhi Road, Gaya (BR) - 824231 
+                    <br> Approved by AICTE & Affiliated to <span id="boardUniv"></span> Govt. of Bihar 
+                    <br> &amp; Recognized by Dept. of Science & Technology, Govt. of Bihar.
+                    <br> Mob. No:-7759813222, Website-<span id="website"></span>, Email- <span id="emaiId"></span>
+                </p>
+            </div>
         </div>
+        <hr style="border: 1px solid #000;">
+    </div>
 
-        <div class="input-form">
-            <div class="form-group">
-                <label for="student-name">Name:</label>
-                <input type="text" id="student-name" placeholder="Rohit Kumar" />
-            </div>
+    <div id="refdate">
+      <p><strong>Ref. No.:-</strong> <span id="refNo"></span></p>
+      <p><strong>Date:</strong> <span id="certDate"></span></p>
+    </div>
 
-            <div class="form-group">
-                <label for="fathers-name">Father's Name:</label>
-                <input type="text" id="fathers-name" placeholder="Ramesh Kumar" />
-            </div>
+    <h2 class="text-center">TO WHOM IT MAY CONCERN</h2>
 
-            <div class="form-group">
-                <label for="session">Session:</label>
-                <input type="text" id="session" placeholder="2020-23" />
-            </div>
+    <p style="text-align: justify;">
+      Certified that <strong><span id="certStudent"></span></strong> S/o<strong>/</strong>D/o
+      <strong><span id="certFather"></span></strong> had been admitted during
+      the session <strong><span id="certSession"></span></strong> in the branch of
+      <strong><span id="certBranch"></span></strong> bearing Roll No –
+      <strong><span id="certRoll"></span></strong>. He/She is a bonafide student of
+      this institution. He/She is promoted to <strong><span id="certSemester"></span></strong>
+      Semester. The <span id="dueYear"></span> dues payable fee will be <strong><span id="certFee"></span></strong>.
+    </p>
 
-            <div class="form-group">
-                <label for="course">Course:</label>
-                <select id="course">
-                    <option value="B.Tech Engineering">B.Tech Engineering</option>
-                    <option value="Polytechnic Engineering">Polytechnic Engineering</option>
-                </select>
-            </div>
+    <p style="text-align: justify;" id="paragraph2">
+      This Institute has been recognized by AICTE through their F.No.
+      <span id="aicteId"></span> <span id="approvalDate"></span> & affiliated to <span id="boardUniv"></span>
+      affiliation no. <span id="affiliationNo"></span> 
+      <span id="affiliationDate"></span> and subsequently recognized by Department of Science &amp;
+      Technology, Govt. of Bihar, Patna.
+    </p>
 
-            <div class="form-group">
-                <label for="branch-select">Branch:</label>
-                <select id="branch-select">
-                    <option value="Civil Engineering">Civil Engineering</option>
-                    <option value="Electrical Engineering">Electrical Engineering</option>
-                    <option value="Computer Science & Engineering">Computer Science & Engineering</option>
-                    <option value="Mechanical Engineering">Mechanical Engineering</option>
-                    <option value="Electronics Engineering">Electronics Engineering</option>
-                </select>
-            </div>
+    <p id="backlog-line" style="display: none;">
+      Session has been running late due to <span id="certBacklog"></span>.
+    </p>
 
-            <div class="form-group">
-                <label for="roll-no">Roll No:</label>
-                <input type="text" id="roll-no" placeholder="123456" />
-            </div>
+    <p>
+      <strong>Account Holder Name</strong> – Buddha Institute of Technology<br />
+      <strong>Bank Name</strong> – State Bank of India<br />
+      <strong>Address</strong> – Gandhi Maidan, Gaya<br />
+      <strong>Account No.</strong> – 61047772752<br />
+      <strong>IFSC</strong> – SBIN0006553
+    </p>
 
-            <div class="form-group">
-                <label for="semester">Promoted Semester:</label>
-                <input type="text" id="semester" placeholder="6th" />
-            </div>
+    <div class="signature">Principal</div>
+    <div style="width: 100%; align-items: center; text-align: center;"><button id="printBtn" style="color: white;">Print</button></div>
+  </div>
 
-            <div class="form-group">
-                <label for="fee">Fee Payable:</label>
-                <input type="text" id="fee" placeholder="87100/-" />
-            </div>
+  <script>
+    document.getElementById("generate-btn").addEventListener("click", () => {
+        const requiredFields = [
+                "student-name",
+                "fathers-name",
+                "session",
+                "course",
+                "branch-select",
+                "roll-no",
+                "semester",
+                "fee"
+        ];
 
-            <div class="form-group">
-                <label for="is-late">Is session running late?</label>
-                <select id="is-late">
-                    <option value="no">No</option>
-                    <option value="yes">Yes</option>
-                </select>
-            </div>
+        let allFilled = true;
+        let missingFields = [];
+        requiredFields.forEach(id =>{
+            const field = document.getElementById(id);
+            if (!field.value.trim() || !field.value) {
+                allFilled = false;
+                missingFields.push(id);
+            }
+        });
 
-            <div class="form-group">
-                <label for="backlog">Reason for delay (if any):</label>
-                <input type="text" id="backlog" placeholder="Backlog in 4th sem" />
-            </div>
+        if (!allFilled) {
+            alert("Please fill all the required fields: " + missingFields.join(", "));
+            return;
+        }
 
-            <div class="button-group">
-                <button id="generate-btn">Show Certificate</button>
-                <!-- <button id="download-btn">Download Certificate</button> -->
-            </div>
-        </div>
 
-        <div id="certificate">
-            <div id="refdate">
-                <p><strong>Ref. No.:-</strong> <span id="refNo"></span></p>
-                <p><strong>Date:</strong> <span id="certDate"></span></p>
-            </div>
 
-            <h2 class="text-center">TO WHOM IT MAY CONCERN</h2>
+      document.getElementById("certStudent").innerText = document.getElementById("student-name").value;
+      document.getElementById("certFather").innerText = document.getElementById("fathers-name").value;
+      document.getElementById("certSession").innerText = document.getElementById("session").value;
+      document.getElementById("certBranch").innerText = document.getElementById("branch-select").value;
+      document.getElementById("certRoll").innerText = document.getElementById("roll-no").value;
+      document.getElementById("certSemester").innerText = document.getElementById("semester").value;
+      document.getElementById("certFee").innerText = document.getElementById("fee").value;
 
-            <p>
-                Certified that <strong><span id="certStudent"></span></strong> S/o
-                <strong><span id="certFather"></span></strong> had been admitted during
-                the session <strong><span id="certSession"></span></strong> in the branch of
-                <strong><span id="certBranch"></span></strong> bearing Roll No –
-                <strong><span id="certRoll"></span></strong>. He is a bonafide student of
-                this institution. He is promoted to <strong><span id="certSemester"></span></strong>
-                Semester. The 3rd Year dues payable fee will be <strong><span id="certFee"></span></strong>.
-            </p>
+      let aicteId = document.getElementById("aicteId");
+      let boardUniv = document.getElementById("boardUniv");
+      let affiliationNo = document.getElementById("affiliationNo");
+      let affiliationDate = document.getElementById("affiliationDate");
+      let approvalDate = document.getElementById("approvalDate");
 
-            <p>
-                This Institute has been recognized by A.I.C.T.E through their F.No.
-                Northern/1-43657927785/2024/EOA, dated: 08-May-2024 & affiliated to
-                SBTE, Patna, Bihar affiliation no. KK(SBTE)02/2022(Part-4)-2957/Patna,
-                Dated-30.07.2024 and subsequently recognized by Department of Science &amp;
-                Technology, Govt. of Bihar, Patna.
-            </p>
+      
+      if (document.getElementById("course").value === "B.Tech Engineering") {
+        boardUniv.innerText = "BEU, Patna";
+        aicteId.innerText = "aicteidcode123456789";
+        approvalDate.innerText = "Dated-00.00.0000";
+        affiliationNo.innerText = "B.Tech/BEU/2024/12345";
+        affiliationDate.innerText = "Dated-00.00.0000";
+      } else {
+        boardUniv.innerText = "SBTE, Patna";
+        aicteId.innerText = "F.No. Northern/1-43657927785/2024/EOA";
+        approvalDate.innerText = "Dated-15.08.2024";
+        affiliationNo.innerText = "KK(SBTE)02/2022(Part-4)-2957/Patna";
+        affiliationDate.innerText = "Dated-30.07.2024";
+      }
 
-            <p id="backlog-line" style="display: none;">
-                Session has been running late due to <span id="certBacklog"></span>.
-            </p>
+      let semester = document.getElementById("semester").value;
+        if (semester === "3rd" || semester === "3") {
+            document.getElementById("certSemester").innerText = "3rd";
+        } else if (semester === "4th" || semester === "4") {
+            document.getElementById("certSemester").innerText = "4th";
+        } else if (semester === "5th" || semester === "5") {
+            document.getElementById("certSemester").innerText = "5th";
+        } else if (semester === "6th" || semester === "6") {
+            document.getElementById("certSemester").innerText = "6th";
+        } else if (semester === "7th" || semester === "7") {
+            document.getElementById("certSemester").innerText = "7th";
+        } else if (semester === "8th" || semester === "8") {
+            document.getElementById("certSemester").innerText = "8th";
+        } else {
+            alert("Please enter a valid semester (3rd, 4th, 5th, 6th, 7th, or 8th).");
+        }
 
-            <p>
-                <strong>Account Holder Name</strong> – Buddha Polytechnic Institute<br />
-                <strong>Bank Name</strong> – State Bank of India<br />
-                <strong>Address</strong> – Gandhi Maidan, Gaya<br />
-                <strong>Account No.</strong> – 36922955550<br />
-                <strong>IFSC</strong> – SBIN0006553
-            </p>
+        let website = document.getElementById("website");
+        if (document.getElementById("course").value === "B.Tech Engineering") {
+            website.innerText = "www.bodhgayabit.net";
+        } else {
+            website.innerText = "www.bodhgayabit.org";
+        }
 
-            <div class="signature">Principal</div>
+        let emaiId = document.getElementById("emaiId");
+        if (document.getElementById("course").value === "B.Tech Engineering") {
+            emaiId.innerText = "bodhgayabitengg@gmail.com";
+        } else {
+            emaiId.innerText = "bodhgayabit@gmail.com";
+        }
 
-            <div class="button-group">
-                <button id="download-btn">Download Certificate</button>
-            </div>
-        </div>
 
-        <script>
-            // const $ = (id) => document.getElementById(id);
+      let dueYear = document.getElementById("dueYear");
+        if (document.getElementById("semester").value === "3rd" || document.getElementById("semester").value === "4th" || document.getElementById("semester").value === "3" || document.getElementById("semester").value === "4") {
+            dueYear.innerText = "2nd Year";
+        } else if (document.getElementById("semester").value === "5th" || document.getElementById("semester").value === "6th" || document.getElementById("semester").value === "5" || document.getElementById("semester").value === "6") {
+            dueYear.innerText = "3rd Year";
+        } else if (document.getElementById("semester").value === "7th" || document.getElementById("semester").value === "8th" || document.getElementById("semester").value === "7" || document.getElementById("semester").value === "8") {
+            dueYear.innerText = "4th Year";
+        } else {
+            alert("Please enter a valid semester (3rd, 4th, 5th, 6th, 7th, or 8th).");
+        }
 
-        document.getElementById("generate-btn").addEventListener("click", () => {
-                document.getElementById("certStudent").innerText = document.getElementById("student-name").value;
-                document.getElementById("certFather").innerText = document.getElementById("fathers-name").value;
-                document.getElementById("certSession").innerText = document.getElementById("session").value;
-                document.getElementById("certBranch").innerText = document.getElementById("branch-select").value;
-                document.getElementById("certRoll").innerText = document.getElementById("roll-no").value;
-                document.getElementById("certSemester").innerText = document.getElementById("semester").value;
-                document.getElementById("certFee").innerText = document.getElementById("fee").value;
+      const isLate = document.getElementById("is-late").value;
+      const backlog = document.getElementById("backlog").value;
+      const backlogLine = document.getElementById("backlog-line");
 
-                const isLate = document.getElementById("is-late").value;
-                const backlog = document.getElementById("backlog").value;
-                const backlogLine = document.getElementById("backlog-line");
+      if (isLate === "yes") {
+        document.getElementById("certBacklog").innerText = backlog || "backlog in 4th sem";
+        backlogLine.style.display = "block";
+      } else {
+        backlogLine.style.display = "none";
+      }
 
-                if (isLate === "yes") {
-                    document.getElementById("certBacklog").innerText = backlog || "backlog in 4th sem";
-                    backlogLine.style.display = "block";
-                } else {
-                    backlogLine.style.display = "none";
-                }
+      const sessionText = document.getElementById("session").value;
+      const ref = sessionText.split("-").map(s => s.slice(-2)).join('');
+      document.getElementById("refNo").innerText = `BIT/ADM/DIP/2025/${document.getElementById("branch-select").value}/${ref}${document.getElementById("roll-no").value}`;
+      document.getElementById("certDate").innerText = new Date().toLocaleDateString("en-GB");
 
-                const sessionText = document.getElementById("session").value;
-                const ref = sessionText.split("-").map(s => s.slice(-2)).join('');
-                document.getElementById("refNo").innerText = `BIT/ADM/DIP/2025/${document.getElementById("branch-select").value}/${ref}`;
-                document.getElementById("certDate").innerText = new Date().toLocaleDateString("en-GB");
-                // document.getElementById("certificate").style.display = "none"; // Hide before generating
-                document.getElementById("certificate").style.display = "block"; // Show certificate
+      const certificate = document.getElementById("certificate");
+      certificate.style.display = "block";
 
-            });
+      // Wait for rendering then download
+      setTimeout(() => {
+        html2pdf().set({
+          margin: [0.25, 0.25, 0.25, 0.25], // [top, left, bottom, right] in inches
+          filename: "bonafide_certificate.pdf",
+          image: { type: "jpeg", quality: 1 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: "in", format: "a4", orientation: "portrait" }
+        }).from(certificate).save();
+      }, 1000);
+    });
 
-            document.getElementById("download-btn").addEventListener("click", () => {
-                const element = document.getElementById("certificate");
-                // document.getElementById("certificate").style.display = "block";
+    // document.getElementById("printBtn").addEventListener("click", () => {
+    //   const certificate = document.getElementById("certificate");
+    //   window.print();
+    // });
 
-                // Allow time to render before generating PDF
-                requestAnimationFrame(() => {
-                    setTimeout(() => {
-                        html2pdf().set({
-                            margin: 0.5,
-                            filename: "bonafide_certificate.pdf",
-                            image: { type: "jpeg", quality: 0.98 },
-                            html2canvas: { scale: 2 },
-                            jsPDF: { unit: "in", format: "a4", orientation: "portrait" }
-                        }).from(document.getElementById("certificate")).save();
-                    }, 300);
-                });
-            });
-        </script>
-    </body>
+        document.getElementById("printBtn").addEventListener("click", () => {
+            const certificate = document.getElementById("certificate");
+            window.print();
+            setTimeout(() => {
+                certificate.style.display = "none"; // optional
+                document.getElementById("printBtn").innerText = "";
+            }, 500);
+        });
+    
+    
 
-    </html>
+  </script>
+</body>
+</html>

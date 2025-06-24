@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bonafide Certificate Generator</title>
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script> -->
   <style>
     * {
       box-sizing: border-box;
@@ -124,6 +124,24 @@
       font-weight: bold;
       font-size: 1.1rem;
     }
+
+    #header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2px;
+    }
+
+    #logo img {
+      width: 120px;
+      height: auto;
+    }
+    #headerContent {
+      text-align: center;
+      flex-grow: 1;
+      line-height: normal;
+    }
   </style>
 </head>
 <body>
@@ -203,6 +221,21 @@
   </div>
 
   <div id="certificate">
+    <div>
+        <div id="header">
+            <div id="logo" class="header"><img src="https://i.pinimg.com/736x/77/da/f9/77daf9fec90aa67e37bc31501d4adcb2.jpg" alt=""></div>
+            <div id="headerContent" class="header">
+                <h2 style="color: rgb(185, 0, 0);">BUDDHA INSTITUTE OF TECHNOLOGY</h2>
+                <P style="font-size: small;">Industrial Area, Gaya-Dobhi Road, Gaya (BR) - 824231 
+                    <br> Approved by AICTE & Affiliated to <span id="boardUniv"></span> Govt. of Bihar 
+                    <br> &amp; Recognized by Dept. of Science & Technology, Govt. of Bihar.
+                    <br> Mob. No:-7759813222, Website-<span id="website"></span>, Email- <span id="emaiId"></span>
+                </p>
+            </div>
+        </div>
+        <hr style="border: 1px solid #000;">
+    </div>
+
     <div id="refdate">
       <p><strong>Ref. No.:-</strong> <span id="refNo"></span></p>
       <p><strong>Date:</strong> <span id="certDate"></span></p>
@@ -241,6 +274,7 @@
     </p>
 
     <div class="signature">Principal</div>
+    <div><button id="printBtn">Print</button></div>
   </div>
 
   <script>
@@ -261,17 +295,17 @@
 
       
       if (document.getElementById("course").value === "B.Tech Engineering") {
-        boardUniv.innerText = "BEU, Patna, Bihar";
-        affiliationNo.innerText = "B.Tech/BEU/2024/12345";
-        affiliationDate.innerText = "Dated-00.00.0000";
+        boardUniv.innerText = "BEU, Patna";
         aicteId.innerText = "aicteidcode123456789";
         approvalDate.innerText = "Dated-00.00.0000";
+        affiliationNo.innerText = "B.Tech/BEU/2024/12345";
+        affiliationDate.innerText = "Dated-00.00.0000";
       } else {
-        boardUniv.innerText = "SBTE, Patna, Bihar";
-        affiliationNo.innerText = "KK(SBTE)02/2022(Part-4)-2957/Patna";
-        affiliationDate.innerText = "Dated-30.07.2024";
+        boardUniv.innerText = "SBTE, Patna";
         aicteId.innerText = "F.No. Northern/1-43657927785/2024/EOA";
         approvalDate.innerText = "Dated-15.08.2024";
+        affiliationNo.innerText = "KK(SBTE)02/2022(Part-4)-2957/Patna";
+        affiliationDate.innerText = "Dated-30.07.2024";
       }
 
       let semester = document.getElementById("semester").value;
@@ -289,6 +323,20 @@
             document.getElementById("certSemester").innerText = "8th";
         } else {
             alert("Please enter a valid semester (3rd, 4th, 5th, 6th, 7th, or 8th).");
+        }
+
+        let website = document.getElementById("website");
+        if (document.getElementById("course").value === "B.Tech Engineering") {
+            website.innerText = "www.bodhgayabit.net";
+        } else {
+            website.innerText = "www.bodhgayabit.org";
+        }
+
+        let emaiId = document.getElementById("emaiId");
+        if (document.getElementById("course").value === "B.Tech Engineering") {
+            emaiId.innerText = "bodhgayabitengg@gmail.com";
+        } else {
+            emaiId.innerText = "bodhgayabit@gmail.com";
         }
 
 
@@ -325,13 +373,18 @@
       // Wait for rendering then download
       setTimeout(() => {
         html2pdf().set({
-          margin: [1.5, 0.5, 1, 0.5], // [top, left, bottom, right] in inches
+          margin: [0.25, 0.25, 0.25, 0.25], // [top, left, bottom, right] in inches
           filename: "bonafide_certificate.pdf",
           image: { type: "jpeg", quality: 1 },
           html2canvas: { scale: 2 },
           jsPDF: { unit: "in", format: "a4", orientation: "portrait" }
         }).from(certificate).save();
       }, 1000);
+    });
+
+    document.getElementById("printBtn").addEventListener("click", () => {
+      const certificate = document.getElementById("certificate");
+      window.print();
     });
   </script>
 </body>
