@@ -238,7 +238,6 @@
       <p><strong>Ref. No.:-</strong> <span id="refNo"></span></p>
       <p><strong>Date:</strong> <span id="certDate"></span></p>
     </div>
-
     <h2 class="text-center">TO WHOM IT MAY CONCERN</h2>
 
     <p>
@@ -270,7 +269,6 @@
       <strong>Account No.</strong> – 36922955550<br />
       <strong>IFSC</strong> – SBIN0006553
     </p>
-
     <div class="signature">Principal</div>
 
     <div class="button-group">
@@ -311,10 +309,8 @@
       // Set reference number
       const refSession = session.split('-').map(s => s.slice(-2)).join('');
       document.getElementById('refNo').innerText = `BIT/ADM/DIP/2025/${branch}/${refSession}`;
-
       // Set current date
       document.getElementById('certDate').innerText = new Date().toLocaleDateString('en-GB');
-
       // Show certificate
       document.getElementById('certificate').style.display = 'block';
     });
