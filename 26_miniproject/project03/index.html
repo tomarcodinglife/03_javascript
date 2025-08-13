@@ -341,8 +341,6 @@
             return;
         }
 
-
-
       document.getElementById("certStudent").innerText = document.getElementById("student-name").value;
       document.getElementById("certFather").innerText = document.getElementById("fathers-name").value;
       document.getElementById("certSession").innerText = document.getElementById("session").value;
@@ -357,7 +355,6 @@
       let affiliationDate = document.getElementById("affiliationDate");
       let approvalDate = document.getElementById("approvalDate");
 
-      
       if (document.getElementById("course").value === "B.Tech Engineering") {
         boardUniv.innerText = "BEU, Patna";
         aicteId.innerText = "aicteidcode123456789";
@@ -388,7 +385,6 @@
         } else {
             alert("Please enter a valid semester (3rd, 4th, 5th, 6th, 7th, or 8th).");
         }
-
         let website = document.getElementById("website");
         if (document.getElementById("course").value === "B.Tech Engineering") {
             website.innerText = "www.bodhgayabit.net";
@@ -466,7 +462,6 @@
     //   const certificate = document.getElementById("certificate");
     //   window.print();
     // });
-
         document.getElementById("printBtn").addEventListener("click", () => {
             const certificate = document.getElementById("certificate");
             window.print();
@@ -475,9 +470,6 @@
                 document.getElementById("printBtn").innerText = "";
             }, 500);
         });
-    
-    
-
   </script>
 </body>
 </html>
